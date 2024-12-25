@@ -1,13 +1,10 @@
+import axios from 'axios';
+
 async function fetchData<T>(url: string): Promise<T> {
   try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const data: T = await response.json();
-    return data;
-  } catch (error) {
-    throw new Error(`Error fetching from ${url}: ${error}`);
+    const response = await axios.get<T>(url);
+    return response.data;
+  } catch (error: any) {
+    throw new Error(`Error fetching from ${url}: ${error.message || error}`);
   }
 }
-
